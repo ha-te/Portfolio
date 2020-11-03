@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block css %}
+<link href="https://fonts.googleapis.com/css?family=Alegreya+Sans" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static',filename='css/memory_list.css') }}">
+{% endblock %}
+{% block content %}
+<button>
+  
+  <a href="{{url_for('english.create_memory')}}">記憶の作成</a>
+</button>
+<div>
+  {% for memory in memories %}
+  <h3>{{memory.word}}</h3>
+    <div class="service-box">
+      <div class="service-icon offwhite">
+          <div class="front-content">
+          </div>
+        </div>
+        <div class="service-content">
+          <h3>{{memory.word}}</h3>
+          <h3>{{memory.mean}}</h3>
+          <form action="{{url_for('english.delete_memory')}}" method="POST"class="delete">
+            {{form.csrf_token}}
+            {{form.id(value=memory.id)}}
+            {{form.submit()}}
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+</div>
+{% endblock %}

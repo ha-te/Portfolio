@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/english.css')}}">
+{% endblock %}
+{% block content %}
+<h1>英語単語</h1>
+    <button>
+      <a href="{{url_for('english.toeic_test')}}"><span>word test</span></a>
+    </button>
+    <button>
+      <a href="{{url_for('english.lesson')}}"><span>lesson</span></a>
+    </button>
+{% endblock %}

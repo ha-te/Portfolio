@@ -1,0 +1,50 @@
+{% from "_formhelpers.html" import render_field %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン</title>
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/login.css')}}">
+</head>
+<body>
+    {% for message in get_flashed_messages() %}
+    {{ message }}
+    {% endfor %}
+    <div class="wrapper">
+        <div class="container">
+            <h1>Welcome</h1>
+            
+            <form class="form" method="POST">
+                {{ form.csrf_token }}
+                {{ render_field(form.email,class="email") }}
+                {{ render_field(form.password,class="password") }}
+                {{ render_field(form.confirm_password,class="repeat-password") }}
+                {{ form.submit() }}
+            </form>
+        </div>
+        
+        <ul class="bg-bubbles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    
+    <a href="{{url_for('users.forgot_password')}}">
+        パスワードを忘れた場合
+    </a>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ url_for('static',filename='javascript/login.js') }}"></script>
+    
+</body>
+</html>

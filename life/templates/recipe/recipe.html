@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<br>
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">レシピタイトル</th>
+      <th scope="col">料理家</th>
+      <th scope="col">ジャンル</th>
+      <th scope="col">更新日</th>
+      <th scope="col">オススメ度</th>
+    </tr>
+  </thead>
+
+  {% for recipe in recipes.items%}
+      <tbody>
+        <tr>
+          <td> <a href="{{ url_for('recipes.recipe_update', id=recipe.id) }}"> {{ recipe.title }} </a></td>
+          {% for creater in creaters %}
+            {% if creater.id == recipe.creater_id %}
+              <td> <a href="{{ url_for('recipes.creater_update', id=recipe.creater_id)}}"> {{ creater.name }}</a></td>
+            {% endif %}
+          {% endfor %}
+          <td> {{ recipe.genre }} </td>
+          <td> {{ recipe.date }} </td>
+          <td> {{ recipe.recommended }} </td>
+
+        </tr>
+      </tbody>
+  {% endfor %}
+</table>
+<p align="right">合計　{{ recipes.total }}　レシピ　</p>
+
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    {% for page in recipes.iter_pages(left_edge=2, left_current=2, right_current=5, right_edge=2) %}
+      {% if page %}
+        {% if page != recipes.page %}
+            <li class="page-item"><a class="page-link" href="{{ url_for('recipes.recipe_pages', page_num=page) }}">{{ page }}</a></li>
+        {% else %}
+            <li class="page-item active"><a class="page-link">{{ page }}</a></li>
+        {% endif %}
+      {% else %}
+        <span> ... </span>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</nav>
+
+
+
+{% endblock %}

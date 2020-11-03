@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <h2>{{list_data[list_num][0]}}          <button id='answer'>答え</button></h2>
+    <br>
+    <h2 id="mean">ここに答えが出ます</h2>
+    <script>
+      document.getElementById("answer").onclick = function() {
+        document.getElementById("mean").innerHTML = "{{list_data[list_num][1]}}";
+      };
+    </script>
+    <button><a href="{{url_for('english.create_memory')}}">記憶リストに追加</a></button>
+    <button><a href="{{url_for('english.toeic_test')}}">次へ</a></button>
+  </tr>
+{% endblock %}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}FLASK app{% endblock %}</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css')}}">
+        {% block css %}
+        {% endblock %}
+    </head>
+    <body>
+        <header>
+
+            <section class="blurry-menu">
+                <ul>
+                    <li><a href="{{url_for('english.english_start')}}">ENGLISH</a></li>
+                    {% if current_user.is_authenticated %}
+                    <li><a href="{{url_for('users.logout')}}">LOGOUT</a></li>
+                    <li><a href="{{url_for('users.user')}}">USER EDIT</a></li>
+                    <li><a href="{{ url_for('users.user_search')}}">USER SEARCH</a></li>
+                    <li><a href="{{url_for('recipes.recipe')}}">Recipe</a></li>
+                    {% else %}
+                    <li><a href="{{url_for('users.login')}}">LOGIN</a></li>
+                    <li><a href="{{url_for('users.register')}}">REGISTER</a></li>
+                    {% endif %}
+                </ul>
+            </section>
+        </header>
+    {% block content %}
+    {% endblock %}
+    <footer>
+        
+    </footer>
+</body>
+</html>

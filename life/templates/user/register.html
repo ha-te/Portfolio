@@ -1,0 +1,40 @@
+{% from "_formhelpers.html" import render_field %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+  <h1>ユーザ情報登録画面</h1>
+  <div class="back">
+    <div class="registration-form">
+      <header>
+        <h1>Sing Up</h1>
+        <p>以下にご入力ください</p>
+      </header>
+      <form method="POST">
+        {{ form.csrf_token }}
+        <div class="input-section username-section">
+          {{ render_field(form.username,class='username')}}
+          <div class="animated-button">
+            <span class="icon-paper-plane">
+              <i class="fa fa-envelope-o"></i>
+            </span>
+            <span class="next-button username">
+              <i class="fa fa-arrow-up"></i>
+            </span>
+          </div>
+        </div>
+        <div class="input-section password-section folded">
+  
+        </div>
+          {{ render_field(form.email) }}
+          {{ form.submit() }}
+      </form>
+    </div>
+  </div>
+</body>
+</html>

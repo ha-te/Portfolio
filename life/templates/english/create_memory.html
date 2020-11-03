@@ -1,0 +1,13 @@
+{% from "_formhelpers.html" import render_field %}
+{% extends "layout.html" %}
+{% block content %}
+<div>
+  <h1>メモリー追加</h1>
+  <form method="POST">
+    {{form.csrf_token}}
+    {{form.word.label}}{{form.word()}}<br>
+    {{form.mean.label}}{{form.mean()}}<br>
+    {{form.submit()}}
+  </form>
+</div>
+{% endblock %}

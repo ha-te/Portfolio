@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>タイピングゲーム</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/typing.css')}}" />
+    <audio src ="_sound_anime_mp3_incorrect1.mp3" id="missaudio">現環境では音が鳴りません</audio>
+    <audio src ="_sound_battle_mp3_handgun-out-bullets1.mp3" id="correctaudio"></audio>
+    <script>
+      var wordlist = ["pursue","anyway","inform","degree","benefit","replace","infer","following","accomplish","reinforce","demand","refer","booking","assemble","despite","cause","available","commercial","occupy","compare","inquire","department","describe","a couple of ~","remove","conference","decision","introduce","reject","destroy","according to","income","empty","entertain","likely","establish","star","secure","state","equipment","basis","suffer","environmental","apologize","provide","browse","tradition","satisfy","local","facility","take part in","institute","resume","opening","notify","maintain","host","construction","notice","instruct","deliver","participate","tour","subscribe","correct","merchandise","loosen","research","focus","result","mail","attend","fine","shift","admiration","gather","delivery","availability","announce","set up","recently","regularly","blame","workforce","require","indicate","impression","struggle","employee","fund","additional","shuttle","depart","sweep","review","appear","offer","go over ~","load","production","favor","earn","fire","located","analyze","commute","generous","import","detail","attain","direct","relationship","turn in","repair","recover","contribution","confess","increase","growth","update","quantity","regard","include","cost","greet","consider","currently","activity","refuse","subject","assign","advertising","vacancy","stop by","correctly","stack","expect","connect","saving","water","firm","attract","pour","profit","lay off","client","attention","feed","present","annual"];
+      var wordlistJapanese = ["追及する、遂行する、続行する","知らせる、告げる、影響を与える","とにかく","（大学の）学位、程度","利益を得る／特典、福利厚生","~を取り替える","推察する、考える","~に続いて／次の、以下の","成し遂げる、完遂する、達成する","強化する","要求する、請求する","参照する、言及する、（人を）紹介する","（ホテルや乗り物の）予約","組み立てる、集める","~にもかかわらず","引き起こす、もたらす／原因","入手できる、利用できる、購入できる、","商業の、商業的な","占有する","比較する、比べる、例える","尋ねる、問い合わせる","部門、売り場","説明する、描写する","２、３の","取り除く","会議、学会","決定、決定事項","紹介する、導入する","却下する、拒否する","破壊する","~によると、~に従って","収入、収益","空にする","もてなす、楽しませる","おそらく／~しそうだ","~を設立する、制定する","主演する、呼び物にする","~を確保する、固定する／安全な","述べる、言う","機器、装備","ベース、基準、根拠","被る、受ける","環境の","おわびをする、謝罪する","提供する","見て回る、拾い読みする","伝統、しきたり","満足させる","地元の／地元の人","施設、設備","参加する、出場する","制定する、始める","再開する","空き、開店、就職口","知らせる","維持する、メンテナンスする","主催する、接待する","建設","お知らせ／~に気づく","指示する、教える","（商品など）を届ける","参加する、関与する","見学する、旅行する／見学、旅行","購読する、加入する","修正する、訂正する","商品","ゆるめる","研究、調査／研究する、調査する","集中させる、照準を合わせる","結果／（結果的に）生じる","郵送する","出席する、参加する","（天気が）晴れた、素晴らしい","移す、変更する","感心、称賛","集まる","配達（物）","手に入ること、利用できること","発表する、知らせる、公表する","設置する","最近","定期的に","~のせいにする、非難する","全従業員、労働力","要求する、義務付ける","示す","（心に残る）印象","奮闘する、もがく、苦心する","社員、従業員","資金を与える","付加的な、追加の","往復運転で運ぶ","（~を）出発する","掃く、掃除する","検討する、論評する／検討、論評","~のように見える、現れる","申し出る、提供する","~をじっくりと調べる","荷物を積む","生産、作品","善意の行為／~の方を好む","得る、稼ぐ","解雇する","位置して","~を分析する","通勤する","気前のよい、寛大な","輸入する","詳細／詳しく述べる","~を実現する、達成する","向ける、管理する、監督する","関係（性）","提出する、返却する","修理／修理する","取り戻す、回復する","貢献、寄付金","告白する","増加／増える、増やす","成長、発展","更新する、改訂する","量、分量","みなす、考える","含む","費用がかかる（費用）","挨拶する、出迎える","考える、検討する","現在は","活動、アクティビティー","拒む、断る","科目、（議論などの）題目","割り当てる、配属する","広告（業）、宣伝（活動）","空き室","立ち寄る","正しく、正確に","積み重ねる","予期する、予定する","接続する、つなぐ","節約、値引き","水をやる","会社","~をひきつける、魅了する","注ぐ","利益","解雇する","顧客、クライアント、取引先","注意、留意","食べさせる、餌を与える","与える、提示する","年に1度の、毎年恒例の、年間の",];
+      var time_limit = 90;
+      var readytime = 3;
+      var score;
+      var correct;
+      var mistake;
+      var char_num = 0;
+      var word_char;
+      var random;
+      function ready(){
+        readytime = 3;
+        scoredis.innerHTML="";
+        start_button.style.visibility ="hidden";
+        var readytimer = setInterval(function(){
+          count.innerHTML=readytime;
+          readytime--;
+          if(readytime < 0){
+            clearInterval(readytimer);
+            gameStart();
+          }
+        },1000);
+      }
+      function gameStart(){
+        score = 0.0;
+        mistake = 0;
+        correct = 0;
+        wordDisplay();
+        var time_remaining = time_limit;
+        var gametimer = setInterval(function(){
+          count.innerHTML="残り時間："+time_remaining;
+          time_remaining--;
+          if(time_remaining <= 0){
+            clearInterval(gametimer);
+            finish();
+          }
+        },1000);
+      }
+      function wordDisplay(){
+        random = Math.floor( Math.random() * wordlist.length );
+        word.innerHTML=wordlist[random];
+        japanese.innerHTML=wordlistJapanese[random];
+        charInsort();
+      }
+      function charInsort(){
+        word_char = wordlist[random].charAt(char_num);
+      }
+      function finish(){
+        score = Math.floor(Math.pow(correct,2) * Math.pow((correct/(correct+mistake)),5));
+        scoredis.innerHTML="スコア:"+score+"点"+"<hr>正タイプ数:"+correct+"<br>ミスタイプ数:"+mistake+"<br>正答率"+(correct/(correct+mistake)*100).toFixed(1)+"%";
+        count.innerHTML="";
+        word.innerHTML="";
+        japanese.innerHTML="";
+        start_button.style.visibility ="visible";
+        word_char=0;
+        random = 0;
+        char_num = 0;
+      }
+      document.onkeydown = function(e) {
+        if(e.keyCode == 189){
+          keyStr = "-";
+        }else if(e.keyCode == 188){
+          keyStr = ","
+        }else{
+          var keyStr = String.fromCharCode(e.keyCode);
+          keyStr = keyStr.toLowerCase();
+        }
+        if(keyStr == word_char){
+          document.getElementById('missaudio').pause();
+          document.getElementById('missaudio').currentTime = 0;
+          document.getElementById('correctaudio').pause();
+          document.getElementById('correctaudio').currentTime = 0;
+          document.getElementById('correctaudio').play();
+          word.innerHTML="<span style='color: red;'>"+wordlist[random].substr(0,char_num+1)+"</span>"+wordlist[random].substr(char_num+1,wordlist[random].length);
+          char_num++;
+          correct++;
+          charInsort();
+        }else{
+          document.getElementById('missaudio').pause();
+          document.getElementById('missaudio').currentTime = 0;
+          document.getElementById('correctaudio').pause();
+          document.getElementById('correctaudio').currentTime = 0;
+          mistake++;
+          document.getElementById('missaudio').play();
+        }
+        if(char_num == wordlist[random].length){
+          char_num=0;
+          wordDisplay();
+        }
+      };
+      
+    </script>
+  </head>
+  <body>
+    <div class="wrap">
+      <input type="button" id="start_button" value="start" onclick="ready()" style="text-align: center" class="btn btn-flat">
+      <div id="count"></div>
+      <h1><div id="japanese"></div></h1>
+      <h2><div id="word"></div></h2>
+      <div id="scoredis"></div>
+    </div>
+    
+  </body>
+  
+</html>

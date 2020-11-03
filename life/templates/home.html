@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>LIFE to HAPPY</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/home.css')}}">
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="container">
+        <div class="animate-title inview">
+            {% if current_user.is_authenticated %}
+            <span class="char">L</span>
+            <span class="char">o</span>
+            <span class="char">g</span>
+            <span class="char">in</span>
+            <span class="char"></span>
+            <span class="char"> </span>
+            <span class="char">OK</span>
+            <span class="char"></span>
+            {% else %}
+            <span class="char">L</span>
+            <span class="char">i</span>
+            <span class="char">f</span>
+            <span class="char">e</span>
+            <span class="char"> </span>
+            <span class="char">to</span>
+            <span class="char"> </span>
+            <span class="char">Happy</span>
+            {% endif %}
+        </div>
+    </div>
+    {% if current_user.is_authenticated %}
+    <a class="btn-emergency" href="{{url_for('users.start')}}">
+        <span class="btn-emergency-bottom"></span>
+        <span class="btn-emergency-top"><span>ホームへ</span></span>
+    </a>
+    <a class="btn-emergency" href="{{url_for('recipes.recipe')}}">
+        <span class="btn-emergency-bottom"></span>
+        <span class="btn-emergency-top"><span>レシピ口コミへ</span></span>
+    </a>
+    {% else %}
+    <div class="home">
+        <div class="intro">
+            <div class="sidevar">
+                <h1>INTRODUCTION</h1>
+            </div>
+            <div class="mainvar">
+                <p>こんにちは！</p>
+                <p>このサイトは、生活に関するあらゆることをサポートするようなサイトです。</p>
+                <ul>
+                    <li>英語学習</li>
+                    <li>レシピ口コミ</li>
+                    <li>タイピングゲーム </li>
+                </ul>
+                <p>現在は、これらのことに対応しています。そして、さらに増やしていこうと思っております。</p>
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="main">
+            {% if current_user.is_authenticated %}
+            <h1>ログアウト</h1>
+            <button><a href="{{url_for('users.logout')}}">ログアウト</a></button>
+            {% else %}
+            <h1>新規登録orログイン</h1>
+            <button><a href="{{ url_for('users.register')}}">新規登録</a></button>
+            <button><a href="{{ url_for('users.login')}}">ログイン</a></button>
+            {% endif %}
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='javascript/home.js') }}"></script>
+</body>
+</html>
